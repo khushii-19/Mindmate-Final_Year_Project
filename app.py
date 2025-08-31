@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
 # ✅ Step 1: Add your Gemini API key here
-genai.configure(api_key="AIzaSyCkBGQQEoTvuFVwLYQ7C1J5nEgw9yc32-4")
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # ✅ Step 2: Define your system prompt (persona + rules)
 SYSTEM_PROMPT = """
