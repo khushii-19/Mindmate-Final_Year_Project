@@ -1,0 +1,6 @@
+[
+  {"emotion": "happy", "response": "I’m so glad to hear that! What made you happy today?"},
+  {"emotion": "sad", "response": "I’m sorry you’re feeling this way. Want to talk about it?"},
+  {"emotion": "angry", "response": "I hear your frustration. Do you want to vent or find solutions?"},
+  {"emotion": "anxious", "response": "Take a deep breath. You're safe here. Want me to suggest calming tips?"}
+]
