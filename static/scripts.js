@@ -98,7 +98,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
 
 document.getElementById('registerForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
-  alert('Registration submitted (demo). Replace with real registration logic.');
+  // alert('Registration submitted (demo). Replace with real registration logic.');
   closeModalById('registerModal');
 });
 
