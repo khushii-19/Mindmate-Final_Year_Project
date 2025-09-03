@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MindMate Dashboard</title>
+  <link rel="stylesheet" href="static/styles.css">
+
+  <!-- LottiePlayer CDN -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">MindMate</div>
+    <div class="actions">
+      <div class="profile">
+        <img src="profile-pic.png" alt="Profile" class="profile-pic" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">
+        <span class="profile-name">Username</span>
+      </div>
+    </div>
+  </header>
+  <main class="hero-section">
+      <div class="hero-content">
+        <h2>Your Dashboard</h2>
+        <p>This is your personal dashboard. Here you can view your mood statistics, latest analysis, and access all MindMate features.</p>
+        <!-- Include your site features -->
+        <div class="cards">
+        <div class="card">
+            <h3>Mood Journal</h3>
+            <p>Track, edit, and review your emotional history over time.</p>
+        </div>
+        <div class="card">
+            <h3>Therapy Suggestions</h3>
+            <p>Get personalized care tips based on your moods.</p>
+        </div>
+        </div>
+      </div>
+  </main>
+
+
+  <!-- Floating Chatbot Robot -->
+<div id="robot-helper">
+  <lottie-player
+    src="Robot says hello.json"
+    background="transparent"
+    speed="1"
+    style="width: 120px; height: 120px;"
+    loop
+    autoplay
+  ></lottie-player>
+  <div class="robot-message">How may I help you?</div>
+</div>
+
+
+  <script src="static/scripts.js"></script>
+</body>
+</html>

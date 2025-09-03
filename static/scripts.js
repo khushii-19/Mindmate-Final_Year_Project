@@ -89,17 +89,18 @@ document.querySelectorAll('.pw-toggle').forEach(btn=>{
 });
 
 
-// prevent default form submissions (demo only)
+// Login form redirect
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  alert('Login submitted (demo). Replace with real auth logic.');
-  closeModalById('loginModal');
+    e.preventDefault();
+    // Simulate successful login (replace with real auth logic)
+    window.location.href = 'dashboard.html'; // Redirect to dashboard
 });
 
+// Register form redirect
 document.getElementById('registerForm')?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  // alert('Registration submitted (demo). Replace with real registration logic.');
-  closeModalById('registerModal');
+    e.preventDefault();
+    // Simulate successful registration (replace with real registration logic)
+    window.location.href = 'dashboard.html'; // Redirect to dashboard
 });
 
 // close modals on Escape key

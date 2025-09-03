@@ -67,8 +67,8 @@
     <h2 id="loginTitle">Sign In</h2>
     <!-- Flask login route -->
     <form id="loginForm" class="form" method="POST" action="/login">
-      <label>Email / Username
-        <input type="text" name="username" placeholder="you@example.com" required />
+      <label>Username or Email
+            <input type="text" placeholder="Username or Email" required autocomplete="username" spellcheck="false" inputmode="email" pattern="(^[a-zA-Z0-9._-]{3,30}$)|(^[^\s@]+@[^\s@]+\.[^\s@]+$)" title="Enter a username (3-30 chars: letters, numbers, . _ -) or a valid email address"/>  
       </label>
       <label>Password
         <div class="pw-row">
@@ -93,11 +93,14 @@
     <h2 id="registerTitle">Register</h2>
     <!-- Flask register route -->
     <form id="registerForm" class="form" method="POST" action="/register">
-      <label>Username
-        <input type="text" name="username" placeholder="user_name" required />
+      <label>Full Name
+        <input type="text" placeholder="Your Name" required />
       </label>
       <label>Email
-        <input type="email" name="email" placeholder="you@example.com" required />
+        <input type="email" placeholder="you@example.com" required />
+      </label>
+      <label>Username
+        <input type="text" placeholder="Username" required />
       </label>
       <label>Mobile Number
         <input type="tel" name="phone" placeholder="9876543210" required pattern="[0-9]{10}" />
