@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MindMate - Machine Learning Based Mental Wellness Assistant</title>
-  <link rel="stylesheet" href="static/styles.css">
+  <link rel="stylesheet" href="/static/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
@@ -66,9 +66,9 @@
     <button class="modal-close" data-close="loginModal">&times;</button>
     <h2 id="loginTitle">Sign In</h2>
     <!-- Flask login route -->
-    <form id="loginForm" class="form" method="POST" action="/login">
+    <form id="loginForm" method="POST" action="{{ url_for('login') }}">
       <label>Username or Email
-            <input type="text" placeholder="Username or Email" required autocomplete="username" spellcheck="false" inputmode="email" pattern="(^[a-zA-Z0-9._-]{3,30}$)|(^[^\s@]+@[^\s@]+\.[^\s@]+$)" title="Enter a username (3-30 chars: letters, numbers, . _ -) or a valid email address"/>  
+            <input type="text" placeholder="Username or Email" name="email" required autocomplete="username" spellcheck="false" inputmode="email" pattern="(^[a-zA-Z0-9._-]{3,30}$)|(^[^\s@]+@[^\s@]+\.[^\s@]+$)" title="Enter a username (3-30 chars: letters, numbers, . _ -) or a valid email address"/>  
       </label>
       <label>Password
         <div class="pw-row">
@@ -92,15 +92,15 @@
     <button class="modal-close" data-close="registerModal">&times;</button>
     <h2 id="registerTitle">Register</h2>
     <!-- Flask register route -->
-    <form id="registerForm" class="form" method="POST" action="/register">
+    <form id="registerForm" method="POST" action="{{ url_for('register') }}">
       <label>Full Name
-        <input type="text" placeholder="Your Name" required />
+        <input type="text" placeholder="Your Name" name="fullname" required />
       </label>
       <label>Email
-        <input type="email" placeholder="you@example.com" required />
+        <input type="email" placeholder="you@example.com" name="email" required />
       </label>
       <label>Username
-        <input type="text" placeholder="Username" required />
+        <input type="text" placeholder="Username" name="username" required />
       </label>
       <label>Mobile Number
         <input type="tel" name="phone" placeholder="9876543210" required pattern="[0-9]{10}" />
@@ -156,6 +156,6 @@
   </div> -->
 
 
-    <script src="static/scripts.js"></script>
+    <script src="/static/scripts.js"></script>
 </body>
 </html>
