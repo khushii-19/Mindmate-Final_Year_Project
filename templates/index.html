@@ -97,13 +97,23 @@
         <input type="text" placeholder="Your Name" name="fullname" required />
       </label>
       <label>Email
-        <input type="email" placeholder="you@example.com" name="email" required />
+        <input type="email" placeholder="you@example.com" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
       </label>
       <label>Username
         <input type="text" placeholder="Username" name="username" required />
       </label>
+
       <label>Mobile Number
-        <input type="tel" name="phone" placeholder="9876543210" required pattern="[0-9]{10}" />
+        <div class="mobile-input">
+          <select id="countryCode" required>
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+81">🇯🇵 +81</option>
+          </select>
+          <input type="tel" id="mobileNumber" name="phone" placeholder="9876543210" required pattern="[0-9]{10}" />
+        </div>
       </label>
       <label>Date of Birth
         <div class="date-wrapper">

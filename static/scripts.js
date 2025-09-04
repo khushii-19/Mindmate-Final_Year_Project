@@ -131,20 +131,7 @@ document.getElementById("switchToLoginTop")?.addEventListener("click", (e) => {
   openModal("loginModal");
 });
 
-const dobInput = document.getElementById("dob");
-flatpickr(dobInput, {
-  altInput: true,
-  altFormat: "F j, Y",
-  dateFormat: "Y-m-d",
-  theme: "dark",
-  allowInput: true,
-  clickOpens: false, // default click disabled
-});
 
-// Font Awesome calendar icon opens picker
-document.querySelector(".calendar-icon").addEventListener("click", () => {
-  dobInput._flatpickr.open();
-});
 
 function openModal(id) {
   // ensure other modal closed
@@ -156,7 +143,7 @@ function openModal(id) {
   const el = document.getElementById(id);
   if (el) el.setAttribute("aria-hidden", "false");
 
-  // केवल mobile पर blur apply करो
+  // blur only for mobile
   if (window.matchMedia("(max-width: 860px)").matches) {
     document
       .querySelectorAll(".hero-content, .cards, #bgVideo, .video-reflect")
@@ -168,8 +155,67 @@ function closeModalById(id) {
   const el = document.getElementById(id);
   if (el) el.setAttribute("aria-hidden", "true");
 
-  // blur हटाओ
+  // remove blur
   document
     .querySelectorAll(".hero-content, .cards, #bgVideo, .video-reflect")
     .forEach((el) => el.classList.remove("blur"));
 }
+
+
+
+// to handle the chats with chatbot
+document.addEventListener('DOMContentLoaded', function() {
+  const robotHelper = document.getElementById('robot-helper');
+  const chatPanel = document.getElementById('chat-panel');
+  const closeChatBtn = document.getElementById('close-chat');
+  const chatForm = document.getElementById('chat-form');
+  const chatInput = document.getElementById('chat-input');
+  const chatMessages = document.getElementById('chat-messages');
+  if (robotHelper && chatPanel && closeChatBtn && chatForm && chatInput && chatMessages) {
+    robotHelper.addEventListener('click', function() {
+      const isHidden = chatPanel.getAttribute('aria-hidden') === 'true';
+      chatPanel.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
+      chatPanel.style.display = isHidden ? 'flex' : 'none';
+      if (!isHidden) { chatInput.focus(); }
+    });
+    closeChatBtn.addEventListener('click', function() {
+      chatPanel.setAttribute('aria-hidden', 'true');
+      chatPanel.style.display = 'none';
+    });
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) return;
+      const userMsgElem = document.createElement('div');
+      userMsgElem.textContent = 'You: ' + message;
+      chatMessages.appendChild(userMsgElem);
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      setTimeout(function() {
+        const botMsgElem = document.createElement('div');
+        botMsgElem.textContent = 'MindMate: How can I help you today?';
+        chatMessages.appendChild(botMsgElem);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 1000);
+    });
+  }
+});
+
+
+// calender JS
+const dobInput = document.getElementById("dob");
+flatpickr(dobInput, {
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+    theme: "dark",
+    allowInput: true,
+    clickOpens: false // default click disabled
+});
+
+// Font Awesome calendar icon opens picker
+document.querySelector(".calendar-icon").addEventListener("click", () => {
+    dobInput._flatpickr.open();
+});
+
+
