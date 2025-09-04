@@ -32,13 +32,13 @@ model = genai.GenerativeModel("gemini-2.0-flash")
 # Database (SQLite for dev, can switch to MySQL later)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mindmate.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
+db.init_app(app) 
 
 # yahan apna model banao
-class ChatHistory(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String(100))
-    bot = db.Column(db.String(100))
+#class ChatHistory(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    user = db.Column(db.String(100))
+#    bot = db.Column(db.String(100))
 
 # ✅ Yeh zaroori hai (context ke andar database tables create karna)
 with app.app_context():
@@ -64,43 +64,49 @@ def index():
 
 @app.route("/register", methods=["POST"])
 def register():
+    
+
+    fullname=request.form["fullname"]
     username = request.form["username"]
     email = request.form["email"]
     phone = request.form["phone"]
     dob = request.form["dob"]
     gender = request.form["gender"]
     password = request.form["password"]
+    print(fullname, username, email, password)
 
-    user = User.query.filter_by(email=email).first()
-    if user:
-        if check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for("index"))
-        else:
-            flash(" Wrong password for this email!")
-            return redirect(url_for("index"))
+    #user = User.query.filter_by(email=email).first()
+    if User.query.filter_by(email=email).first():
+        flash("Email already exists!")
+        return redirect(url_for("index"))
 
-    hashed_pw = generate_password_hash(password, method="sha256")
-    new_user = User(username=username, email=email, phone=phone, dob=dob, gender=gender, password=hashed_pw)
+    hashed_pw = generate_password_hash(password, method="pbkdf2:sha256")
+    new_user = User(fullname=fullname, username=username, email=email, phone=phone, dob=dob, gender=gender, password=hashed_pw)
     db.session.add(new_user)
     db.session.commit()
 
     login_user(new_user)  # direct login after register
-    return redirect(url_for("index"))
+    return redirect(url_for("dashboard"))
 
 
 @app.route("/login", methods=["POST"])
 def login():
-    email = request.form["email"]
+    email = request.form.get("email")
     password = request.form["password"]
 
     user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password, password):
         login_user(user)
-        return redirect(url_for("index"))
+        return redirect(url_for("dashboard"))
     else:
         flash("Invalid email or password")
         return redirect(url_for("index"))
+    
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    # Pass current_user object to template
+    return render_template("dashboard.html", user=current_user)
 
 
 @app.route("/chatbot")
@@ -140,5 +146,5 @@ def logout():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run(debug=True, port=5501)
 

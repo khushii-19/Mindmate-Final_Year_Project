@@ -1,57 +1,68 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>MindMate Dashboard</title>
-  <link rel="stylesheet" href="static/styles.css">
+  <head>
+    <title>MindMate Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
 
-  <!-- LottiePlayer CDN -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
-
-</head>
-<body>
-  <header class="site-header">
-    <div class="brand">MindMate</div>
-    <div class="actions">
-      <div class="profile">
-        <img src="profile-pic.png" alt="Profile" class="profile-pic" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">
-        <span class="profile-name">Username</span>
+    <!-- LottiePlayer CDN -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">MindMate</div>
+      <div class="actions">
+        <div class="profile">
+          <img
+            src="profile-pic.png"
+            alt="Profile"
+            class="profile-pic"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              vertical-align: middle;
+            "
+          />
+          <span class="profile-name">{{ user.fullname }}</span>
+        </div>
       </div>
-    </div>
-  </header>
-  <main class="hero-section">
+    </header>
+    <main class="hero-section">
       <div class="hero-content">
         <h2>Your Dashboard</h2>
-        <p>This is your personal dashboard. Here you can view your mood statistics, latest analysis, and access all MindMate features.</p>
+        <p>
+          This is your personal dashboard. Here you can view your mood
+          statistics, latest analysis, and access all MindMate features.
+        </p>
         <!-- Include your site features -->
         <div class="cards">
-        <div class="card">
+          <div class="card">
             <h3>Mood Journal</h3>
             <p>Track, edit, and review your emotional history over time.</p>
-        </div>
-        <div class="card">
+          </div>
+          <div class="card">
             <h3>Therapy Suggestions</h3>
             <p>Get personalized care tips based on your moods.</p>
-        </div>
+          </div>
         </div>
       </div>
-  </main>
+    </main>
 
+    <!-- Floating Chatbot Robot -->
+    <div id="robot-helper">
+      <lottie-player
+        src="{{ url_for('static', filename='Robot says hello.json') }}"
+        background="transparent"
+        speed="1"
+        style="width: 160px; height: 160px"
+        loop
+        autoplay
+      >
+      </lottie-player>
 
-  <!-- Floating Chatbot Robot -->
-<div id="robot-helper">
-  <lottie-player
-    src="Robot says hello.json"
-    background="transparent"
-    speed="1"
-    style="width: 120px; height: 120px;"
-    loop
-    autoplay
-  ></lottie-player>
-  <div class="robot-message">How may I help you?</div>
-</div>
+      <div class="robot-message">How may I help you?</div>
+    </div>
 
-
-  <script src="static/scripts.js"></script>
-</body>
+    <script src="/static/scripts.js"></script>
+  </body>
 </html>
