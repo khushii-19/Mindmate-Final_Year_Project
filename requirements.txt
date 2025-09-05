@@ -1,8 +1,6 @@
-flask
-sentence-transformers
-google-generativeai
-Flask==2.3.2
-google-generativeai==0.3.2
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Werkzeug
 python-dotenv
-SQLAlchemy
-lask_sqlalchemy
+google-generativeai

@@ -17,22 +17,25 @@ app.secret_key = os.getenv("SECRET_KEY", "fallback_secret")
 
 # Google Gemini API
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-SYSTEM_PROMPT = """
-You are an AI physcologist. 
-- Always reply in very short and casual sentences.    
-- Keep the tone friendly and supportive 
-- If user talks in hinglish, talk in hinglish.
-- Talk like a friend on WhatsApp.
-- Don’t answer in points.
-- Don’t talk in Urdu.
-- Be a little emotional like a psychologist, ok.
-"""
-model = genai.GenerativeModel("gemini-2.0-flash")
+
+model = genai.GenerativeModel(
+    "gemini-2.0-flash",
+    system_instruction="""
+        You are an AI psychologist.
+        - Always reply in short and casual sentences.
+        - Only give 1 sugeestion at one time
+        - Friendly, supportive WhatsApp-like tone.
+        - If user talks in Hinglish, reply in Hinglish.
+        - Don’t answer in points.
+        - No Urdu.
+        - Be a little emotional like a psychologist friend.
+    """
+)
 
 # Database (SQLite for dev, can switch to MySQL later)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mindmate.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db.init_app(app) 
+db.init_app(app)
 
 # yahan apna model banao
 #class ChatHistory(db.Model):
@@ -116,20 +119,27 @@ def chatbot():
     return render_template("chatbot.html", username=current_user.username, chats=chats)
 
 
+
 @app.route("/chat", methods=["POST"])
-@login_required
 def chat():
-    user_input = request.json["message"]
+    try:
+        data = request.get_json()
+        user_message = data.get("message", "")
 
-    # For now reply simple, later connect Gemini
-    bot_reply = f"Echo: {user_input}"
+        if not user_message.strip():
+            return jsonify({"error": "Message cannot be empty"}), 400
 
-    # Save in DB
-    new_chat = Chat(user_id=current_user.id, message=user_input, reply=bot_reply)
-    db.session.add(new_chat)
-    db.session.commit()
+        # Send only user message (system_instruction is already bound to model)
+        response = model.generate_content(user_message)
 
-    return jsonify({"reply": bot_reply})
+        bot_reply = getattr(response, "text", "No reply from AI")
+
+        return jsonify({"reply": bot_reply})
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+
 
 
 @app.route("/logout")

@@ -1,4 +1,32 @@
-.env
-venv/
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# Environment variables
+.env
+
+# SQLite database (agar test ke liye bana hai to ignore kar)
+*.sqlite3
+*.db
+
+# VSCode / PyCharm settings
+.vscode/
+.idea/
+
+# Flask instance folder
+instance/
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+mindmate.db
+*.db
+instance/*.db

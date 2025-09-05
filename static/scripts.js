@@ -182,23 +182,51 @@ document.addEventListener('DOMContentLoaded', function() {
       chatPanel.setAttribute('aria-hidden', 'true');
       chatPanel.style.display = 'none';
     });
-    chatForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const message = chatInput.value.trim();
-      if (!message) return;
-      const userMsgElem = document.createElement('div');
-      userMsgElem.textContent = 'You: ' + message;
-      chatMessages.appendChild(userMsgElem);
-      chatInput.value = '';
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      setTimeout(function() {
-        const botMsgElem = document.createElement('div');
-        botMsgElem.textContent = 'MindMate: How can I help you today?';
-        chatMessages.appendChild(botMsgElem);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }, 1000);
+
+
+
+
+
+    // changed chatform to gemini replies dont change it now 
+
+
+chatForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const message = chatInput.value.trim();
+  if (!message) return;
+
+  // Show user message
+  const userMsgElem = document.createElement('div');
+  userMsgElem.textContent = 'You: ' + message;
+  chatMessages.appendChild(userMsgElem);
+
+  chatInput.value = '';
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  try {
+    // Send message to backend
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
     });
+
+    const data = await res.json();
+
+    // Show bot reply from Gemini
+    const botMsgElem = document.createElement('div');
+    botMsgElem.textContent = 'MindMate: ' + data.reply;
+    chatMessages.appendChild(botMsgElem);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  } catch (err) {
+    const errorMsg = document.createElement('div');
+    errorMsg.textContent = '⚠️ Error connecting to chatbot';
+    chatMessages.appendChild(errorMsg);
   }
+});
+}
 });
 
 
