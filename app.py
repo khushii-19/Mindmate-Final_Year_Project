@@ -43,7 +43,7 @@ db.init_app(app)
 #    user = db.Column(db.String(100))
 #    bot = db.Column(db.String(100))
 
-# ✅ Yeh zaroori hai (context ke andar database tables create karna)
+#  Yeh zaroori hai (context ke andar database tables create karna)
 with app.app_context():
     db.create_all()
 
