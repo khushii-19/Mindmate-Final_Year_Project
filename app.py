@@ -111,6 +111,10 @@ def dashboard():
     # Pass current_user object to template
     return render_template("dashboard.html", user=current_user)
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
 
 @app.route("/chatbot")
 @login_required

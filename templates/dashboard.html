@@ -16,22 +16,26 @@
     <header class="site-header">
       <div class="brand">MindMate</div>
       <div class="actions">
-        <div class="profile">
-          <img
-            src="profile-pic.png"
-            alt="Profile"
-            class="profile-pic"
+        <div class="profile"
+          
             style="
               width: 32px;
               height: 32px;
               border-radius: 50%;
               vertical-align: middle;
+              cursor:pointer; 
+              display:flex; 
+              align-items:center; 
+              gap:10px;
             "
-          />
+            onclick="window.location.href='/profile'" >
+          <img src="/static/images/avtaar.png" class="profile-pic" width="36" height="36" alt="Profile">
           <span class="profile-name">{{ user.fullname }}</span>
         </div>
       </div>
     </header>
+
+
     <main class="hero-section">
       <div class="hero-content">
         <h2>Your Dashboard</h2>
