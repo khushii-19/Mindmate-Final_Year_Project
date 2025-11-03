@@ -12,6 +12,8 @@ class User(UserMixin, db.Model):
     dob = db.Column(db.String(50), nullable=True)  
     gender = db.Column(db.String(20), nullable=True)
     password = db.Column(db.String(150), nullable=False)
+    bio = db.Column(db.Text)
+    city = db.Column(db.String(100))
 
     chats = db.relationship('Chat', backref='user', lazy=True)
 

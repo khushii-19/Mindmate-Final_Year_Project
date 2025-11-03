@@ -33,7 +33,9 @@ model = genai.GenerativeModel(
 )
 
 # Database (SQLite for dev, can switch to MySQL later)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mindmate.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:ajay1234@localhost:3306/mindmate_db"
+
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
@@ -111,9 +113,21 @@ def dashboard():
     # Pass current_user object to template
     return render_template("dashboard.html", user=current_user)
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
-    return render_template('profile.html')
+    if request.method == 'POST':
+        # Get form data sent by JavaScript
+        data = request.get_json()
+        current_user.bio = data.get('bio')
+        current_user.city = data.get('city')
+        db.session.commit()
+        return jsonify({'message': 'Profile updated successfully!'})
+
+    return render_template('profile.html', user=current_user)
+
+
+
 
 
 @app.route("/chatbot")
@@ -161,4 +175,5 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True, port=5501)
+
 

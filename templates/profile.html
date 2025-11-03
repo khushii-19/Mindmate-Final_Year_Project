@@ -1,233 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Profile - MindMate</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        .profile-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg);
-            width: 100vw;
-        }
+      .profile-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        width: 100vw;
+      }
+      .profile-card {
+        background: var(--panel, rgba(255, 255, 255, 0.04));
+        width: 100%;
+        max-width: 780px;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        padding: 36px 40px 28px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #e6eef2;
+      }
+      .avatar-preview {
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        background: #111b26;
+        margin-bottom: 12px;
+        transition: width 0.18s, height 0.18s;
+      }
+      .avatar-upload-btn {
+        font-size: 14px;
+        margin-bottom: 4px;
+        margin-top: 4px;
+        background: var(--accent);
+        color: #032028;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.18s;
+      }
+      .avatar-upload-btn.outline {
+        background: transparent;
+        border: 1.5px solid var(--accent);
+        color: var(--accent);
+      }
+      .avatar-upload-btn:hover {
+        background: #47d8c3;
+      }
+      .avatar-upload-btn.outline:hover {
+        background: var(--panel);
+      }
+      .profile-fields {
+        width: 100%;
+      }
+      .profile-fields label {
+        font-size: 14px;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .profile-fields .readonly {
+        background: rgba(255, 255, 255, 0.06);
+        color: #e2eaf0;
+        border: none;
+        cursor: not-allowed;
+      }
+      .profile-fields input,
+      .profile-fields textarea {
+        width: 100%;
+        margin-bottom: 14px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: transparent;
+        color: #e9fbf6;
+        font-size: 15px;
+      }
+      .profile-fields textarea {
+        min-height: 60px;
+        resize: vertical;
+      }
+      .profile-actions {
+        display: flex;
+        gap: 18px;
+        margin-top: 10px;
+        width: 100%;
+      }
+      /* Modal for avatar picker */
+      #avatarModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(10, 20, 40, 0.95);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+      }
+      #avatarModal .modal-content {
+        background: var(--panel);
+        padding: 32px 40px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      #avatarModal img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border 0.2s;
+      }
+      #avatarModal img:hover {
+        border: 2px solid var(--accent);
+      }
+      #avatarModal button {
+        margin-left: 14px;
+      }
+      @media (max-width: 600px) {
         .profile-card {
-            background: var(--panel, rgba(255,255,255,0.04));
-            width: 100%;
-            max-width: 780px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            padding: 36px 40px 28px 40px;
+          padding: 18px 8px;
+          max-width: 99vw;
+        }
+        #avatarModal .modal-content {
+          flex-wrap: wrap;
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-container">
+      <section class="profile-card">
+        <!-- Avatar preview & controls -->
+        <div
+          style="
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #e6eef2;
-        }
-        .avatar-preview {
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            background: #111b26;
-            margin-bottom: 12px;
-            transition: width 0.18s, height 0.18s;
-        }
-        .avatar-upload-btn {
-            font-size: 14px;
-            margin-bottom: 4px;
-            margin-top: 4px;
-            background: var(--accent);
-            color: #032028;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.18s;
-        }
-        .avatar-upload-btn.outline {
-            background: transparent;
-            border: 1.5px solid var(--accent);
-            color: var(--accent);
-        }
-        .avatar-upload-btn:hover {
-            background: #47d8c3;
-        }
-        .avatar-upload-btn.outline:hover {
-            background: var(--panel);
-        }
-        .profile-fields {
-            width: 100%;
-        }
-        .profile-fields label {
-            font-size: 14px;
-            margin-bottom: 6px;
-            color: var(--muted);
-            font-weight: 500;
-        }
-        .profile-fields .readonly {
-            background: rgba(255,255,255,0.06);
-            color: #e2eaf0;
-            border: none;
-            cursor: not-allowed;
-        }
-        .profile-fields input, .profile-fields textarea {
-            width: 100%;
-            margin-bottom: 14px;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: transparent;
-            color: #e9fbf6;
-            font-size: 15px;
-        }
-        .profile-fields textarea {
-            min-height: 60px;
-            resize: vertical;
-        }
-        .profile-actions {
-            display: flex;
-            gap: 18px;
-            margin-top: 10px;
-            width: 100%;
-        }
-        /* Modal for avatar picker */
-        #avatarModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(10,20,40,0.95);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        #avatarModal .modal-content {
-            background: var(--panel);
-            padding: 32px 40px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-        #avatarModal img {
-            width: 60px; height: 60px; border-radius: 50%; cursor: pointer;
-            border: 2px solid transparent;
-            transition: border 0.2s;
-        }
-        #avatarModal img:hover {
-            border: 2px solid var(--accent);
-        }
-        #avatarModal button {
-            margin-left: 14px;
-        }
-        @media (max-width:600px) {
-            .profile-card {padding: 18px 8px; max-width: 99vw;}
-            #avatarModal .modal-content {flex-wrap:wrap; padding:16px;}
-        }
-    </style>
-</head>
-<body>
-    <div class="profile-container">
-        <section class="profile-card">
-            <!-- Avatar preview & controls -->
-            <div style="display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:20px;">
-                <img src="/static/images/avtaar.png" alt="Profile Photo" id="avatarPreview"
-                    class="avatar-preview">
-                <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
-                    <input type="file" id="avatarInput" style="display:none" accept="image/*">
-                    <button type="button" class="avatar-upload-btn" onclick="document.getElementById('avatarInput').click();">
-                        Upload Photo
-                    </button>
-                    <button type="button" class="avatar-upload-btn outline" id="removeAvatar">
-                        Remove Photo
-                    </button>
-                    <button type="button" class="avatar-upload-btn outline" onclick="document.getElementById('avatarModal').style.display='flex';">
-                        Choose Avatar
-                    </button>
-                    <button type="button" class="avatar-upload-btn outline" onclick="toggleAvatarSize();">
-                        Adjust Size
-                    </button>
-                </div>
-            </div>
+            gap: 10px;
+            margin-bottom: 20px;
+          "
+        >
+          <img
+            src="/static/images/avtaar.png"
+            alt="Profile Photo"
+            id="avatarPreview"
+            class="avatar-preview"
+          />
+          <div
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 12px;
+              justify-content: center;
+            "
+          >
+            <input
+              type="file"
+              id="avatarInput"
+              style="display: none"
+              accept="image/*"
+            />
+            <button
+              type="button"
+              class="avatar-upload-btn"
+              onclick="document.getElementById('avatarInput').click();"
+            >
+              Upload Photo
+            </button>
+            <button
+              type="button"
+              class="avatar-upload-btn outline"
+              id="removeAvatar"
+            >
+              Remove Photo
+            </button>
+            <button
+              type="button"
+              class="avatar-upload-btn outline"
+              onclick="document.getElementById('avatarModal').style.display='flex';"
+            >
+              Choose Avatar
+            </button>
+            <button
+              type="button"
+              class="avatar-upload-btn outline"
+              onclick="toggleAvatarSize();"
+            >
+              Adjust Size
+            </button>
+          </div>
+        </div>
 
-            <!-- Avatar selection modal -->
-            <div id="avatarModal">
-                <div class="modal-content">
-                    <!-- Demo avatar options; add your images in the folder -->
-                    <img src="/static/images/avtaar1.png" onclick="setAvatar(this.src)" alt="avatar1">
-                    <img src="/static/images/avtaar2.jpg" onclick="setAvatar(this.src)" alt="avatar2">
-                    <img src="/static/images/avtaar3.jpg" onclick="setAvatar(this.src)" alt="avatar3">
-                    <img src="/static/images/avtaar4.jpg" onclick="setAvatar(this.src)" alt="avatar4">
-                    <button class="avatar-upload-btn outline" type="button"
-                        onclick="document.getElementById('avatarModal').style.display='none';">Close</button>
-                </div>
-            </div>
+        <!-- Avatar selection modal -->
+        <div id="avatarModal">
+          <div class="modal-content">
+            <!-- Demo avatar options; add your images in the folder -->
+            <img
+              src="/static/images/avtaar1.png"
+              onclick="setAvatar(this.src)"
+              alt="avatar1"
+            />
+            <img
+              src="/static/images/avtaar2.jpg"
+              onclick="setAvatar(this.src)"
+              alt="avatar2"
+            />
+            <img
+              src="/static/images/avtaar3.jpg"
+              onclick="setAvatar(this.src)"
+              alt="avatar3"
+            />
+            <img
+              src="/static/images/avtaar4.jpg"
+              onclick="setAvatar(this.src)"
+              alt="avatar4"
+            />
+            <button
+              class="avatar-upload-btn outline"
+              type="button"
+              onclick="document.getElementById('avatarModal').style.display='none';"
+            >
+              Close
+            </button>
+          </div>
+        </div>
 
-            <!-- Profile Info -->
-            <div class="profile-fields">
-                <label>Username</label>
-                <input type="text" id="profileName" value="Username" class="readonly" readonly>
-                <label>Email</label>
-                <input type="email" id="profileEmail" value="user@email.com" class="readonly" readonly>
-                <label>Phone Number</label>
-                <input type="text" id="profilePhone" value="9999999999" class="readonly" readonly>
-                <label>Date of Birth</label>
-                <input type="date" id="profileDob" value="2000-01-01" class="readonly" readonly>
-                <label>About/Bio</label>
-                <textarea id="profileBio" placeholder="Your interests, hobbies, or a short bio..."></textarea>
-                <label>Location/City</label>
-                <input type="text" id="profileCity" placeholder="City or Location…">
-            </div>
-            <div class="profile-actions">
-                <button class="primary" type="button" id="saveProfile">Save Changes</button>
-                <button class="action-btn outline" type="button" id="logoutBtn">Log Out</button>
-            </div>
-        </section>
+        <!-- Profile Info -->
+        <div class="profile-fields">
+          <label>Username</label>
+          <input
+            type="text"
+            id="profileName"
+            value="{{ user.username }}"
+            class="readonly"
+            readonly
+          />
+          <label>Email</label>
+          <input
+            type="email"
+            id="profileEmail"
+            value="{{ user.email }}"
+            class="readonly"
+            readonly
+          />
+          <label>Phone Number</label>
+          <input
+            type="text"
+            id="profilePhone"
+            value="{{ user.phone }}"
+            class="readonly"
+            readonly
+          />
+          <label>Date of Birth</label>
+          <input
+            type="date"
+            id="profileDob"
+            value="2{{ user.dob }}"
+            class="readonly"
+            readonly
+          />
+          <label>About/Bio</label>
+          <textarea
+            id="profileBio"
+            placeholder="Your interests, hobbies, or a short bio..."
+          >
+   {{ user.bio if user.bio else '' }}
+
+                </textarea
+          >
+          <label>Location/City</label>
+          <input
+            type="text"
+            name="city"
+            id="profileCity"
+            placeholder="City or Location…"
+            value="{{ user.city if user.city else '' }}"
+          />
+        </div>
+        <div class="profile-actions">
+          <button class="primary" type="submit" id="saveProfile">
+            Save Changes
+          </button>
+          <button class="action-btn outline" type="button" id="logoutBtn">
+            Log Out
+          </button>
+        </div>
+      </section>
     </div>
     <script src="/static/scripts.js"></script>
     <script>
-    function setAvatar(src) {
-        document.getElementById('avatarPreview').src = src;
-        document.getElementById('avatarModal').style.display = 'none';
-    }
+      function setAvatar(src) {
+        document.getElementById("avatarPreview").src = src;
+        document.getElementById("avatarModal").style.display = "none";
+      }
 
-    document.getElementById('removeAvatar').addEventListener('click', function() {
-        document.getElementById('avatarPreview').src = "avatar_default.png";
-        document.getElementById('avatarInput').value = "";
-    });
+      document
+        .getElementById("removeAvatar")
+        .addEventListener("click", function () {
+          document.getElementById("avatarPreview").src = "avatar_default.png";
+          document.getElementById("avatarInput").value = "";
+        });
 
-    document.getElementById('avatarInput').addEventListener('change', function(e){
-        if (e.target.files && e.target.files[0]) {
+      document
+        .getElementById("avatarInput")
+        .addEventListener("change", function (e) {
+          if (e.target.files && e.target.files[0]) {
             let reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('avatarPreview').src = event.target.result;
-            }
+            reader.onload = function (event) {
+              document.getElementById("avatarPreview").src =
+                event.target.result;
+            };
             reader.readAsDataURL(e.target.files[0]);
-        }
-    });
+          }
+        });
 
-    let avatarLarge = true;
-    function toggleAvatarSize() {
-        let img = document.getElementById('avatarPreview');
+      let avatarLarge = true;
+      function toggleAvatarSize() {
+        let img = document.getElementById("avatarPreview");
         avatarLarge = !avatarLarge;
         img.style.width = avatarLarge ? "120px" : "80px";
         img.style.height = avatarLarge ? "120px" : "80px";
-    }
+      }
 
-    document.getElementById('saveProfile').addEventListener('click', function(){
-        alert('Profile changes saved!\n(Connect backend/data logic as needed)');
-    });
+      document
+        .getElementById("saveProfile")
+        .addEventListener("click", async function () {
+          const bio = document.getElementById("profileBio").value;
+          const city = document.getElementById("profileCity").value;
 
-    document.getElementById('logoutBtn').addEventListener('click', function(){
-        window.location.href = '/logout';
-    });
+          const response = await fetch("/profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ bio, city }),
+          });
 
+          const result = await response.json();
+          alert(result.message);
+        });
+
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function () {
+          window.location.href = "/logout";
+        });
     </script>
-
-
-</body>
+  </body>
 </html>
