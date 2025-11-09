@@ -13,7 +13,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Secret key for session/flash
-app.secret_key = os.getenv("SECRET_KEY", "fallback_secret")
+app.secret_key=os.getenv("SECRET_KEY","AIzaSyAHrGQqoCCC5GZjvBNp_J38BepCdg1XfJg")
 
 # Google Gemini API
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))

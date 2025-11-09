@@ -422,19 +422,35 @@ select option {
 }
 
 /* Dashboard styling */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-right: 100px; /* 🔥 increase this until looks perfect */
+}
+
 .profile {
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
+  transform: translateX(5px); /* ✅ slight right nudge */
 }
 
 .profile-pic {
   border-radius: 50%;
   border: 2px solid var(--accent);
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
 }
+
 .profile-name {
   color: var(--accent);
   font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
 }
 
 /* Robot styling */

@@ -4,9 +4,18 @@
     <title>MindMate Dashboard</title>
     <link rel="stylesheet" href="/static/styles.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <!-- LottiePlayer CDN -->
@@ -16,25 +25,31 @@
     <header class="site-header">
       <div class="brand">MindMate</div>
       <div class="actions">
-        <div class="profile"
-          
-            style="
-              width: 32px;
-              height: 32px;
-              border-radius: 50%;
-              vertical-align: middle;
-              cursor:pointer; 
-              display:flex; 
-              align-items:center; 
-              gap:10px;
-            "
-            onclick="window.location.href='/profile'" >
-          <img src="/static/images/avtaar.png" class="profile-pic" width="36" height="36" alt="Profile">
-          <span class="profile-name">{{ user.fullname }}</span>
+        <div
+          class="profile"
+          style="
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            vertical-align: middle;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          "
+          onclick="window.location.href='/profile'"
+        >
+          <img
+            src="/static/images/avtaar.png"
+            class="profile-pic"
+            width="36"
+            height="36"
+            alt="Profile"
+          />
+          <div class="profile-name">{{ user.fullname }}</div>
         </div>
       </div>
     </header>
-
 
     <main class="hero-section">
       <div class="hero-content">
@@ -72,23 +87,110 @@
       <div class="robot-message">How may I help you?</div>
     </div>
 
-
     <!-- Chat Panel Markup (Add at end of body but DO NOT duplicate robot-helper) -->
-    <div id="chat-panel" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Chat window"
-        style="display:none;position:fixed;bottom:250px;right:20px;width:300px;height:400px;background:rgba(255,255,255,0.11);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.8);border: 1px solid var(--accent, #84f2e1);;flex-direction:column;backdrop-filter:blur(15px);color:#e6eef2;z-index:1100;overflow:hidden;">
-      <div id="chat-header" style="padding:10px 15px;background:rgba(255,255,255,0.15);font-weight:700;display:flex;justify-content:space-between;align-items:center;">
+    <div
+      id="chat-panel"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Chat window"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 250px;
+        right: 20px;
+        width: 300px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.11);
+        border-radius: 14px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        border: 1px solid var(--accent, #84f2e1);
+        flex-direction: column;
+        backdrop-filter: blur(15px);
+        color: #e6eef2;
+        z-index: 1100;
+        overflow: hidden;
+      "
+    >
+      <div
+        id="chat-header"
+        style="
+          padding: 10px 15px;
+          background: rgba(255, 255, 255, 0.15);
+          font-weight: 700;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
         <span>MindMate Chat</span>
-        <button id="close-chat" aria-label="Close chat" style="background:transparent;border:none;color:#fff;font-size:24px;cursor:pointer;">&times;</button>
+        <button
+          id="close-chat"
+          aria-label="Close chat"
+          style="
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+          "
+        >
+          &times;
+        </button>
       </div>
-      <div id="chat-messages" style="flex:1;padding:10px 15px;overflow-y:auto;font-size:14px;line-height:1.4;"></div>
-      <form id="chat-form" autocomplete="off" style="display:flex;padding:10px 15px;border-top:1px solid rgba(255,255,255,0.1);">
-        <input type="text" id="chat-input" placeholder="Type a message..." aria-label="Type a message" required autocomplete="off"
-              style="flex:1;border-radius:10px;border:none;padding:8px 12px;font-size:14px;background:rgba(255,255,255,0.06);color:#f6f5f5;">
-        <button type="submit" style="margin-left:8px;padding:8px 16px;border-radius:10px;border:none;background:#5EEAD4;color:#052018;font-weight:600;cursor:pointer;">Send</button>
+      <div
+        id="chat-messages"
+        style="
+          flex: 1;
+          padding: 10px 15px;
+          overflow-y: auto;
+          font-size: 14px;
+          line-height: 1.4;
+        "
+      ></div>
+      <form
+        id="chat-form"
+        autocomplete="off"
+        style="
+          display: flex;
+          padding: 10px 15px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        "
+      >
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Type a message..."
+          aria-label="Type a message"
+          required
+          autocomplete="off"
+          style="
+            flex: 1;
+            border-radius: 10px;
+            border: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #f6f5f5;
+          "
+        />
+        <button
+          type="submit"
+          style="
+            margin-left: 8px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            background: #5eead4;
+            color: #052018;
+            font-weight: 600;
+            cursor: pointer;
+          "
+        >
+          Send
+        </button>
       </form>
     </div>
-
-
 
     <script src="/static/scripts.js"></script>
   </body>
